@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://upliftorch.com/tools/inflation-calculator/en/">
+<link rel="alternate" hreflang="zh-TW" href="https://upliftorch.com/tools/inflation-calculator/">
+<link rel="alternate" hreflang="en" href="https://upliftorch.com/tools/inflation-calculator/en/">
+<link rel="alternate" hreflang="x-default" href="https://upliftorch.com/tools/inflation-calculator/en/">
+<title>Inflation Calculator — What Is $100 in 1990 Worth Today? | InflationCalc</title>
+<meta name="description" content="Free online inflation calculator and purchasing power calculator. Find out what $100 in 1990 is worth today using official US CPI data (1913–2024). Get cumulative and annualized inflation rates — all computed in your browser.">
+<meta name="keywords" content="inflation calculator,purchasing power calculator,what is $100 in 1990 worth today,CPI calculator,US inflation,value of money over time,historical inflation">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
+<meta property="og:title" content="Inflation Calculator — Purchasing Power Over Time">
+<meta property="og:description" content="Convert any dollar amount between years using official US CPI data (1913–2024). All processing in your browser.">
+<meta property="og:type" content="website">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#faf6f0;--surface:#fff;--text:#292524;--text-secondary:#78716c;
+  --border:#e7e5e4;--primary:#d97706;--primary-dark:#b45309;
+  --primary-light:rgba(217,119,6,.1);--radius:14px;
+  --shadow:0 2px 12px rgba(0,0,0,.06);--danger:#ef4444;--success:#22c55e;
+  --header-bg:linear-gradient(135deg,#b45309,#d97706,#f59e0b);
+}
+[data-theme="dark"]{
+  --bg:#1c1917;--surface:#292524;--text:#e7e5e4;--text-secondary:#a8a29e;
+  --border:#44403c;--primary:#fbbf24;--primary-dark:#fcd34d;
+  --primary-light:rgba(251,191,36,.12);--shadow:0 2px 16px rgba(0,0,0,.3);
+  --header-bg:linear-gradient(135deg,#78350f,#92400e,#b45309);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--primary);text-decoration:none}a:hover{text-decoration:underline}
+
+header{background:var(--header-bg);color:#fff;padding:0 20px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand h1{font-size:20px;font-weight:700;display:flex;align-items:center;gap:8px}
+.brand h1 span{opacity:.85;font-weight:400}
+.brand svg{flex-shrink:0}
+.header-actions{display:flex;align-items:center;gap:12px}
+.lang-switch{color:#fff;background:rgba(255,255,255,.2);padding:4px 12px;border-radius:8px;font-size:13px;font-weight:600;transition:.2s}
+.lang-switch:hover{background:rgba(255,255,255,.35);text-decoration:none}
+.theme-toggle{background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;justify-content:center}
+.theme-toggle:hover{background:rgba(255,255,255,.35)}
+.theme-toggle .icon-sun{display:none}
+[data-theme="dark"] .theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+.container{max-width:960px;margin:0 auto;padding:32px 20px}
+.breadcrumb{font-size:13px;color:var(--text-secondary,#64748b);margin-bottom:20px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.breadcrumb a{color:var(--text-secondary,#64748b)}
+.breadcrumb a:hover{color:var(--primary)}
+.breadcrumb .sep{opacity:.5}
+.breadcrumb [aria-current]{color:var(--text,#1e293b);font-weight:600}
+
+.tool-area{background:var(--surface);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:24px}
+.data-note{display:flex;align-items:flex-start;gap:8px;background:var(--primary-light);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--text-secondary);margin-bottom:20px}
+.data-note svg{flex-shrink:0;margin-top:3px;color:var(--primary)}
+.data-note strong{color:var(--text)}
+
+.input-grid{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:end;margin-bottom:20px}
+.input-group label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+.field{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font-size:16px;font-weight:600;outline:none}
+.field:focus{border-color:var(--primary)}
+select.field{cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2378716c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+.swap-btn{background:var(--primary-light);border:1.5px solid var(--border);color:var(--primary);width:46px;height:46px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.2s}
+.swap-btn:hover{border-color:var(--primary)}
+.arrow-cell{display:flex;align-items:center;justify-content:center;height:46px;color:var(--text-secondary)}
+
+.result-panel{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center}
+.result-sentence{font-size:15px;color:var(--text-secondary)}
+.result-sentence strong{color:var(--text)}
+.result-amount{font-size:44px;font-weight:800;color:var(--primary);line-height:1.2;letter-spacing:-1px;margin:6px 0}
+.result-badges{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.badge{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;background:var(--primary-light);color:var(--primary)}
+.badge.neutral{background:var(--surface);border:1px solid var(--border);color:var(--text-secondary)}
+
+.chart-block{margin-top:24px}
+.chart-title{font-size:14px;font-weight:600;margin-bottom:10px;color:var(--text-secondary)}
+.chart-svg{width:100%;height:auto;display:block}
+.chart-svg .grid-line{stroke:var(--border);stroke-width:1}
+.chart-svg .axis-label{fill:var(--text-secondary);font-size:11px;font-family:inherit}
+.chart-svg .line{stroke:var(--primary);stroke-width:2.5;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.chart-svg .area{fill:var(--primary-light)}
+.chart-svg .dot{fill:var(--primary)}
+
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:40px 0}
+.feature-card{background:var(--surface);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);text-align:center}
+.feature-card .feat-icon{width:44px;height:44px;border-radius:12px;background:var(--primary-light);color:var(--primary);display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px}
+.feature-card h3{font-size:16px;margin-bottom:8px}
+.feature-card p{font-size:14px;color:var(--text-secondary)}
+
+.about{background:var(--surface);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin:40px 0}
+.about h2{font-size:22px;margin-bottom:14px}
+.about p{font-size:14px;color:var(--text-secondary);margin-bottom:12px}
+.about p:last-child{margin-bottom:0}
+
+.faq{margin:40px 0}
+.faq h2{font-size:22px;margin-bottom:20px;text-align:center}
+.faq-item{background:var(--surface);border-radius:var(--radius);margin-bottom:12px;box-shadow:var(--shadow);overflow:hidden}
+.faq-q{padding:16px 20px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:15px}
+.faq-q::after{content:"▼";font-size:12px;color:var(--text-secondary);transition:.3s}
+.faq-item.open .faq-q::after{transform:rotate(180deg)}
+.faq-a{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s;font-size:14px;color:var(--text-secondary)}
+.faq-item.open .faq-a{padding:0 20px 16px;max-height:400px}
+
+.articles{margin:40px 0}
+.articles h2{font-size:22px;margin-bottom:20px;text-align:center}
+.article-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.article-card{display:block;background:var(--surface);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);text-decoration:none;color:var(--text);transition:.2s}
+.article-card:hover{box-shadow:0 4px 20px rgba(217,119,6,.18);text-decoration:none}
+.article-card h3{font-size:15px;margin-bottom:6px;color:var(--primary)}
+.article-card p{font-size:13px;color:var(--text-secondary)}
+
+footer{border-top:1px solid var(--border);padding:24px 20px;text-align:center;font-size:13px;color:var(--text-secondary);margin-top:40px}
+footer nav a{color:var(--text-secondary);margin:0 6px}footer nav a:hover{color:var(--primary)}
+
+@media(max-width:767px){
+  .feature-grid{grid-template-columns:1fr}
+  .article-grid{grid-template-columns:1fr}
+  .input-grid{grid-template-columns:1fr}
+  .arrow-cell{transform:rotate(90deg);height:24px}
+  .swap-btn{width:100%}
+  .result-amount{font-size:34px}
+}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Inflation Calculator","url":"https://upliftorch.com/tools/inflation-calculator/en/","description":"Free online inflation and purchasing power calculator based on official US CPI data (1913–2024)","applicationCategory":"UtilityApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://upliftorch.com/"},{"@type":"ListItem","position":2,"name":"Free Online Tools","item":"https://upliftorch.com/tools-en"},{"@type":"ListItem","position":3,"name":"Inflation Calculator","item":"https://upliftorch.com/tools/inflation-calculator/en/"}]}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand"><h1><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Inflation<span>Calc</span></h1></div>
+    <div class="header-actions">
+      <a href="https://upliftorch.com/tools/inflation-calculator/" class="lang-switch">繁中</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="https://upliftorch.com/">Home</a>
+    <span class="sep">›</span>
+    <a href="https://upliftorch.com/tools-en">Free Online Tools</a>
+    <span class="sep">›</span>
+    <span aria-current="page">Inflation Calculator</span>
+  </nav>
+
+  <div class="tool-area">
+    <div class="data-note">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <span>This tool uses official <strong>US CPI (Consumer Price Index, in US dollars)</strong> annual averages from 1913 to 2024, published by the Bureau of Labor Statistics.</span>
+    </div>
+
+    <div class="input-grid">
+      <div class="input-group">
+        <label for="amountInput">Amount (USD)</label>
+        <input type="number" class="field" id="amountInput" value="100" min="0" inputmode="decimal">
+      </div>
+      <div class="input-group">
+        <label for="fromYear">Starting Year</label>
+        <select class="field" id="fromYear"></select>
+      </div>
+      <div class="arrow-cell">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+      <div class="input-group">
+        <label for="toYear">Target Year</label>
+        <select class="field" id="toYear"></select>
+      </div>
+      <button class="swap-btn" id="swapBtn" aria-label="Swap years" title="Swap years (convert in either direction)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 16 4 4 4-4"/><path d="M7 20V4"/><path d="m21 8-4-4-4 4"/><path d="M17 4v16"/></svg>
+      </button>
+    </div>
+
+    <div class="result-panel">
+      <div class="result-sentence" id="resultSentence"></div>
+      <div class="result-amount" id="resultAmount">--</div>
+      <div class="result-sentence" id="resultUnit"></div>
+      <div class="result-badges" id="resultBadges"></div>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title" id="chartTitle">Purchasing power over time</div>
+      <svg class="chart-svg" id="chartSvg" viewBox="0 0 720 240" role="img" aria-label="Purchasing power trend chart"></svg>
+    </div>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 16 4 4 4-4"/><path d="M7 20V4"/><path d="m21 8-4-4-4 4"/><path d="M17 4v16"/></svg></div>
+      <h3>Two-Way Conversion</h3>
+      <p>Convert past dollars into today's value, or today's dollars back into any past year.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></div>
+      <h3>Official CPI Data</h3>
+      <p>Built on Bureau of Labor Statistics CPI-U annual averages covering 112 years, 1913–2024.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      <h3>100% In-Browser</h3>
+      <p>All calculations run locally in your browser. No API calls, nothing uploaded.</p>
+    </div>
+  </div>
+
+  <div class="about">
+    <h2>How Inflation and Purchasing Power Conversion Work</h2>
+    <p>Inflation is the sustained rise in the general price level over time — which means the purchasing power of money steadily falls. The same $100 that filled a grocery cart in 1990 buys far less today. The most widely used measure of inflation is the Consumer Price Index (CPI): statistical agencies track the prices of a fixed basket of everyday goods and services (food, housing, transportation, medical care and more), weight them by typical household spending, and combine them into a single index. The percentage change in that index is the inflation rate.</p>
+    <p>The conversion formula is straightforward: equivalent value = original amount × (target-year CPI ÷ starting-year CPI). For example, the US CPI annual average was 130.7 in 1990 and 314.2 in 2024, so $100 in 1990 is worth roughly $240 in 2024 — cumulative inflation of about 140%. Swap the years and you can also answer the reverse question: how much would today's money have been worth decades ago? That is handy for reading historical documents, comparing old movie ticket prices, or making sense of the salaries your grandparents mention.</p>
+    <p>The data comes from the US Bureau of Labor Statistics CPI-U (Consumer Price Index for All Urban Consumers), annual averages with a 1982–84 = 100 base period. The US series is the longest continuously published official inflation record in the world, running since 1913, and the dollar has long served as the international unit of account — which makes it the most useful common yardstick for comparing purchasing power across eras. Keep in mind that CPI reflects average price changes; your personal inflation rate depends on what you actually buy, and items like housing and tuition have often outpaced headline CPI. Use this tool as a starting point for understanding the time value of money when planning savings and investments.</p>
+  </div>
+
+  <div class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item"><div class="faq-q">What is $100 in 1990 worth today?</div><div class="faq-a">Roughly $240 in 2024 dollars. The US CPI annual average rose from 130.7 in 1990 to 314.2 in 2024, a cumulative inflation of about 140% — around 2.6% per year compounded. Enter any amount and year above to run your own comparison.</div></div>
+    <div class="faq-item"><div class="faq-q">How is the CPI actually calculated?</div><div class="faq-a">The Bureau of Labor Statistics surveys the prices of a representative basket of goods and services — food, rent, transportation, medical care, recreation and more — and weights each category by its share of typical household spending. The weighted average forms the index. With a base period of 1982–84 = 100, a 2024 CPI of 314.2 means the same basket costs about 3.14 times what it did in the base period.</div></div>
+    <div class="faq-item"><div class="faq-q">Why does this calculator use US CPI data?</div><div class="faq-a">The US CPI is the longest continuously published official inflation series in the world, with consistent annual data back to 1913. The US dollar is also the dominant international unit of account, making it the most practical common yardstick for cross-era purchasing power comparisons. Inflation in other countries can differ significantly, so treat results as US-dollar specific.</div></div>
+    <div class="faq-item"><div class="faq-q">How does inflation affect my savings?</div><div class="faq-a">Inflation quietly erodes the real purchasing power of cash. At 3% annual inflation, money sitting idle loses about half its purchasing power in 24 years. That is why real (inflation-adjusted) return matters: an investment must earn more than the inflation rate for your purchasing power to actually grow. Holding cash or deposits yielding less than inflation is a guaranteed real loss.</div></div>
+    <div class="faq-item"><div class="faq-q">Why was inflation so different across decades?</div><div class="faq-a">Inflation is driven by supply and demand, monetary policy, energy prices and wars. Both World Wars brought double-digit US inflation due to shortages; the 1970s oil shocks pushed annual inflation above 13%; the Great Depression of the 1930s saw outright deflation, with prices falling; and 2021–2022 brought a 40-year high driven by post-pandemic supply bottlenecks and loose monetary policy.</div></div>
+    <div class="faq-item"><div class="faq-q">Can I convert today's money back to a past year?</div><div class="faq-a">Yes. Set the starting year to the present and the target year to the past, or just click the swap button. For example, $1,000 in 2024 is equivalent to about $262 in 1980 — meaning $262 back then bought what $1,000 buys in 2024.</div></div>
+    <div class="faq-item"><div class="faq-q">What is the difference between cumulative and annualized inflation?</div><div class="faq-a">Cumulative inflation is the total percentage rise in prices over the whole period. Annualized inflation expresses that same rise as a constant compound annual rate, which makes periods of different lengths comparable. For instance, 140% cumulative inflation from 1990 to 2024 works out to about 2.6% per year compounded over 34 years.</div></div>
+    <div class="faq-item"><div class="faq-q">Is my data uploaded anywhere?</div><div class="faq-a">No. The CPI table is embedded directly in this page and every calculation runs locally in your browser. No external API is called, and the amounts and years you enter never leave your device.</div></div>
+  </div>
+
+  <!-- Related articles -->
+  <section class="articles" id="guides">
+    <h2>Inflation Articles</h2>
+    <div class="article-grid">
+      <a href="https://upliftorch.com/tools/inflation-calculator/en/blog/how-cpi-is-calculated.html" class="article-card">
+        <h3>How Is CPI Calculated?</h3>
+        <p>The market basket, price surveys, and index formula per the BLS Handbook of Methods.</p>
+      </a>
+      <a href="https://upliftorch.com/tools/inflation-calculator/en/blog/great-inflation-1970s.html" class="article-card">
+        <h3>The Great Inflation of the 1970s</h3>
+        <p>Causes, oil shocks, and the Volcker disinflation, from Federal Reserve History.</p>
+      </a>
+      <a href="https://upliftorch.com/tools/inflation-calculator/en/blog/inflation-savings-impact.html" class="article-card">
+        <h3>How Inflation Erodes Your Savings</h3>
+        <p>The Rule of 72 and the difference between nominal and real returns.</p>
+      </a>
+      <a href="https://upliftorch.com/tools/inflation-calculator/en/blog/real-wages.html" class="article-card">
+        <h3>Is Your Raise Beating Inflation?</h3>
+        <p>Nominal vs real wages, and how to check your own salary's purchasing power.</p>
+      </a>
+      <a href="https://upliftorch.com/tools/inflation-calculator/en/blog/index.html" class="article-card">
+        <h3>View All Articles →</h3>
+        <p>More inflation history and CPI explainers, all backed by official sources.</p>
+      </a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <nav>
+    <a href="index.html">Home</a> ·
+    <a href="https://upliftorch.com/tools/inflation-calculator/en/blog/index.html">Articles</a> ·
+    <a href="https://upliftorch.com/privacy-policy">Privacy Policy</a> ·
+    <a href="https://upliftorch.com/terms-of-service">Terms of Service</a>
+  </nav>
+  <p style="margin-top:8px">Inflation Calculator — Data: US Bureau of Labor Statistics CPI-U annual averages. All calculations run in your browser.</p>
+  <p style="margin-top:4px;font-size:12px">&copy; <script>document.write(new Date().getFullYear())</script> Upliftorch. All rights reserved.</p>
+  <p style="margin-top:8px;font-size:13px">
+    <span style="color:#999">More tools:</span>
+    <a href="https://upliftorch.com/tools/base64-codec/en/">Base64 Codec</a> ·
+    <a href="https://upliftorch.com/tools/json-formatter/en/">JSON Formatter</a> ·
+    <a href="https://upliftorch.com/tools/regex-tester/en/">Regex Tester</a> ·
+    <a href="https://upliftorch.com/tools/css-gradient/en/">CSS Gradient Generator</a>
+  </p>
+</footer>
+
+<script>
+/* Dark Mode */
+const themeToggle = document.getElementById('themeToggle');
+const saved = localStorage.getItem('theme');
+if (saved) {
+  document.documentElement.setAttribute('data-theme', saved);
+} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  document.documentElement.setAttribute('data-theme', 'dark');
+}
+themeToggle.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+});
+
+/* US CPI-U annual averages (1982-84=100), source: Bureau of Labor Statistics */
+const CPI = {
+  1913:9.9,1914:10.0,1915:10.1,1916:10.9,1917:12.8,1918:15.1,1919:17.3,
+  1920:20.0,1921:17.9,1922:16.8,1923:17.1,1924:17.1,1925:17.5,1926:17.7,
+  1927:17.4,1928:17.1,1929:17.1,1930:16.7,1931:15.2,1932:13.7,1933:13.0,
+  1934:13.4,1935:13.7,1936:13.9,1937:14.4,1938:14.1,1939:13.9,
+  1940:14.0,1941:14.7,1942:16.3,1943:17.3,1944:17.6,1945:18.0,
+  1946:19.5,1947:22.3,1948:24.1,1949:23.8,
+  1950:24.1,1951:26.0,1952:26.5,1953:26.7,1954:26.9,1955:26.8,
+  1956:27.2,1957:28.1,1958:28.9,1959:29.1,
+  1960:29.6,1961:29.9,1962:30.2,1963:30.6,1964:31.0,1965:31.5,
+  1966:32.4,1967:33.4,1968:34.8,1969:36.7,
+  1970:38.8,1971:40.5,1972:41.8,1973:44.4,1974:49.3,1975:53.8,
+  1976:56.9,1977:60.6,1978:65.2,1979:72.6,
+  1980:82.4,1981:90.9,1982:96.5,1983:99.6,1984:103.9,1985:107.6,
+  1986:109.6,1987:113.6,1988:118.3,1989:124.0,
+  1990:130.7,1991:136.2,1992:140.3,1993:144.5,1994:148.2,1995:152.4,
+  1996:156.9,1997:160.5,1998:163.0,1999:166.6,
+  2000:172.2,2001:177.1,2002:179.9,2003:184.0,2004:188.9,2005:195.3,
+  2006:201.6,2007:207.3,2008:215.3,2009:214.5,
+  2010:218.1,2011:224.9,2012:229.6,2013:233.0,2014:236.7,2015:237.0,
+  2016:240.0,2017:245.1,2018:251.1,2019:255.7,
+  2020:258.8,2021:271.0,2022:292.7,2023:304.7,2024:314.2
+};
+const MIN_YEAR = 1913;
+const MAX_YEAR = 2024;
+const DEFAULT_TO_YEAR = Math.min(new Date().getFullYear(), MAX_YEAR);
+
+const amountInput = document.getElementById('amountInput');
+const fromSelect = document.getElementById('fromYear');
+const toSelect = document.getElementById('toYear');
+
+function buildYearOptions(select, selected) {
+  let html = '';
+  for (let y = MAX_YEAR; y >= MIN_YEAR; y--) {
+    html += '<option value="' + y + '"' + (y === selected ? ' selected' : '') + '>' + y + '</option>';
+  }
+  select.innerHTML = html;
+}
+buildYearOptions(fromSelect, 1990);
+buildYearOptions(toSelect, DEFAULT_TO_YEAR);
+
+function fmt(n) {
+  let result;
+  if (n >= 1000000) {
+    result = '$' + (n / 1000000).toFixed(2) + 'M';
+  } else if (n >= 10000) {
+    result = '$' + Math.round(n).toLocaleString('en-US');
+  } else {
+    result = '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  return result;
+}
+
+function calculate() {
+  const amount = parseFloat(amountInput.value);
+  const fromYear = parseInt(fromSelect.value);
+  const toYear = parseInt(toSelect.value);
+  const sentence = document.getElementById('resultSentence');
+  const amountEl = document.getElementById('resultAmount');
+  const unitEl = document.getElementById('resultUnit');
+  const badges = document.getElementById('resultBadges');
+
+  if (!amount || amount <= 0) {
+    sentence.textContent = 'Please enter an amount';
+    amountEl.textContent = '--';
+    unitEl.textContent = '';
+    badges.innerHTML = '';
+  } else {
+    const ratio = CPI[toYear] / CPI[fromYear];
+    const converted = amount * ratio;
+    const cumulative = (ratio - 1) * 100;
+    const span = Math.abs(toYear - fromYear);
+    sentence.innerHTML = '<strong>' + fmt(amount) + '</strong> in <strong>' + fromYear + '</strong> is equivalent to';
+    amountEl.textContent = fmt(converted);
+    unitEl.innerHTML = 'in <strong>' + toYear + '</strong> purchasing power (USD, based on US CPI)';
+    let badgeHtml = '<span class="badge">Cumulative inflation ' + (cumulative >= 0 ? '+' : '') + cumulative.toFixed(1) + '%</span>';
+    if (span > 0) {
+      const annual = (Math.pow(ratio, 1 / (toYear - fromYear)) - 1) * 100;
+      badgeHtml += '<span class="badge">Annualized ' + (annual >= 0 ? '+' : '') + annual.toFixed(2) + '%</span>';
+      badgeHtml += '<span class="badge neutral">' + span + ' years apart</span>';
+    } else {
+      badgeHtml += '<span class="badge neutral">Same year</span>';
+    }
+    badges.innerHTML = badgeHtml;
+    renderChart(amount, fromYear, toYear);
+  }
+}
+
+function renderChart(amount, fromYear, toYear) {
+  const svg = document.getElementById('chartSvg');
+  const lo = Math.min(fromYear, toYear);
+  const hi = Math.max(fromYear, toYear);
+  document.getElementById('chartTitle').textContent =
+    'Purchasing power trend: ' + fmt(amount) + ' from ' + fromYear + ', valued in each year';
+
+  const points = [];
+  for (let y = lo; y <= hi; y++) {
+    points.push({ year: y, value: amount * CPI[y] / CPI[fromYear] });
+  }
+
+  const W = 720, H = 240, padL = 62, padR = 16, padT = 12, padB = 30;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const maxV = Math.max(...points.map(p => p.value));
+  const xOf = y => points.length > 1 ? padL + (y - lo) / (hi - lo) * plotW : padL + plotW / 2;
+  const yOf = v => padT + plotH - (v / maxV) * plotH;
+
+  let parts = '';
+  /* y-axis grid lines and labels */
+  for (let i = 0; i <= 4; i++) {
+    const v = maxV * i / 4;
+    const yy = yOf(v).toFixed(1);
+    parts += '<line class="grid-line" x1="' + padL + '" y1="' + yy + '" x2="' + (W - padR) + '" y2="' + yy + '"/>';
+    parts += '<text class="axis-label" x="' + (padL - 8) + '" y="' + (parseFloat(yy) + 4) + '" text-anchor="end">' + fmt(v) + '</text>';
+  }
+  /* x-axis labels */
+  const tickCount = Math.min(6, points.length);
+  for (let i = 0; i < tickCount; i++) {
+    const idx = tickCount > 1 ? Math.round(i * (points.length - 1) / (tickCount - 1)) : 0;
+    const p = points[idx];
+    parts += '<text class="axis-label" x="' + xOf(p.year).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + p.year + '</text>';
+  }
+  /* line and area */
+  if (points.length > 1) {
+    const coords = points.map(p => xOf(p.year).toFixed(1) + ',' + yOf(p.value).toFixed(1));
+    const baseline = (padT + plotH).toFixed(1);
+    parts += '<path class="area" d="M' + coords.join(' L') + ' L' + xOf(hi).toFixed(1) + ',' + baseline + ' L' + xOf(lo).toFixed(1) + ',' + baseline + ' Z"/>';
+    parts += '<polyline class="line" points="' + coords.join(' ') + '"/>';
+  }
+  /* endpoint dots */
+  const first = points[0], last = points[points.length - 1];
+  parts += '<circle class="dot" cx="' + xOf(first.year).toFixed(1) + '" cy="' + yOf(first.value).toFixed(1) + '" r="4"/>';
+  parts += '<circle class="dot" cx="' + xOf(last.year).toFixed(1) + '" cy="' + yOf(last.value).toFixed(1) + '" r="4"/>';
+  svg.innerHTML = parts;
+}
+
+document.getElementById('swapBtn').addEventListener('click', () => {
+  const tmp = fromSelect.value;
+  fromSelect.value = toSelect.value;
+  toSelect.value = tmp;
+  calculate();
+});
+amountInput.addEventListener('input', calculate);
+fromSelect.addEventListener('change', calculate);
+toSelect.addEventListener('change', calculate);
+calculate();
+
+/* FAQ Toggle */
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
+});
+</script>
+
+
+<script>document.querySelectorAll(".current-year").forEach(function (el) { el.textContent = new Date().getFullYear(); });</script>
+
+<footer class="open-source-attribution" style="padding:24px;text-align:center"><a href="https://upliftorch.com/">Upliftorch</a> · <a href="https://upliftorch.com/tools/inflation-calculator/">Official demo / 線上工具</a></footer>
+</body>
+</html>
